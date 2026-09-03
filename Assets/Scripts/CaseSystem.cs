@@ -13,7 +13,10 @@ public class CaseSystem : MonoBehaviour
     public CaseItem[] items;
     public int caseCost = 67; // стоимость в монетах
     public GameObject caseOpenPanel; // UI панель
-
+    
+    [Header("Акатека67")]
+    public GameObject akateka67Prefab; // Префаб Акатеки67
+    
     public void BuyCase()
     {
         // Проверяем, хватает ли монет
@@ -84,6 +87,7 @@ public class CaseSystem : MonoBehaviour
                     GameManager.Instance.AddMoney(100);
                 }
                 break;
+                
             case "Урон +10%":
                 // Найди оружие и увеличь урон
                 Weapon[] weapons = FindObjectsOfType<Weapon>();
@@ -92,6 +96,11 @@ public class CaseSystem : MonoBehaviour
                     weapon.damage *= 1.1f;
                 }
                 break;
+                
+            case "Акатека67":
+                SpawnAkateka67();
+                break;
+                
             case "Скин золотой":
                 // Поменяй цвет игрока
                 GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -105,5 +114,29 @@ public class CaseSystem : MonoBehaviour
                 }
                 break;
         }
+    }
+    
+    // Метод для спавна Акатеки67
+    void SpawnAkateka67()
+    {
+        if (akateka67Prefab == null)
+        {
+            Debug.LogError("Акатека67: Префаб не назначен в CaseSystem!");
+            return;
+        }
+    
+        // Находим игрока
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+        {
+            Debug.LogError("Акатека67: Игрок не найден!");
+            return;
+        }
+    
+        // Спавним Акатеку ВЫСОКО НАД игроком (3 единицы вверх)
+        Vector3 spawnPosition = player.transform.position + Vector3.up * 3f;
+        GameObject akateka = Instantiate(akateka67Prefab, spawnPosition, Quaternion.identity);
+    
+        Debug.Log("Акатека67: Заспавнен на позиции " + spawnPosition);
     }
 }

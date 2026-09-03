@@ -1756,12 +1756,13 @@ MonoBehaviour:
     dropChance: 10.4
   - itemName: "\u0423\u0440\u043E\u043D +67%"
     icon: {fileID: 21300000, guid: e0734eac16bdd5342a6a43b5c807c22e, type: 3}
-    dropChance: 67
-  - itemName: "\u0410\u043A\u0430\u0442\u0435\u043A\u044367"
+    dropChance: 11.8
+  - itemName: "\u0410\u043A\u0430\u0442\u0435\u043A\u043067"
     icon: {fileID: -3061384533889937514, guid: 0f9e00b7eb5cdc443bb37b9e56538b47, type: 3}
-    dropChance: 36.1
+    dropChance: 82.1
   caseCost: 50
   caseOpenPanel: {fileID: 404783570}
+  akateka67Prefab: {fileID: 794810182877333818, guid: 3dbfde85a7e2bdf45bc179c1f2b4fafd, type: 3}
 --- !u!4 &1555430556
 Transform:
   m_ObjectHideFlags: 0
