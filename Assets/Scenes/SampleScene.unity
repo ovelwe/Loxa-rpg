@@ -352,7 +352,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 75d161e29d5b1f645adc1eb211800ea7, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.325
+  m_Volume: 0.055
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -981,7 +981,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   target: {fileID: 1378226444}
   offset: {x: 0, y: 0, z: -10}
-  smoothTime: 0.2
+  smoothTime: 0.3
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1206,6 +1206,7 @@ MonoBehaviour:
   - {fileID: 1238621669}
   timeBetweenWaves: 5
   zombiesPerWave: 5
+  zombiesIncreasePerWave: 2
 --- !u!4 &808874073
 Transform:
   m_ObjectHideFlags: 0
@@ -1292,7 +1293,7 @@ MonoBehaviour:
   spreadAngle: 5
   bulletPrefab: {fileID: 3796202527203263827, guid: 1e17f9fd6e28624478aae94c6a94d027, type: 3}
   firePoint: {fileID: 1125540223}
-  shootSound: {fileID: 8300000, guid: da0323883cded144f88dd1f5b84e33eb, type: 3}
+  shootSound: {fileID: 8300000, guid: 3a21208cda42c8a42ac31e24ecd970dd, type: 3}
 --- !u!4 &1139668336
 Transform:
   m_ObjectHideFlags: 0
@@ -1996,7 +1997,7 @@ MonoBehaviour:
   spreadAngle: 15
   bulletPrefab: {fileID: 3796202527203263827, guid: 1e17f9fd6e28624478aae94c6a94d027, type: 3}
   firePoint: {fileID: 1125540223}
-  shootSound: {fileID: 8300000, guid: da0323883cded144f88dd1f5b84e33eb, type: 3}
+  shootSound: {fileID: 8300000, guid: 9a296a37bb8a7bf41b9f6cd0090cefbe, type: 3}
 --- !u!1 &1837177312
 GameObject:
   m_ObjectHideFlags: 0
