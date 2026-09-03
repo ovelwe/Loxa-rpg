@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        //
     }
 
     public void Init(float dmg, float bulletSpeed)
