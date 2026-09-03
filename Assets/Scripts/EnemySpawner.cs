@@ -1,32 +1,95 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject zombiePrefab;
-    public Transform[] spawnPoints;
-    public float timeBetweenWaves = 5f;
-    public int zombiesPerWave = 5;
-    private float timer;
-    private int waveNumber = 0;
+    [Header("Spawn")]
+    [SerializeField] private GameObject zombiePrefab;
+    [SerializeField] private Transform[] spawnPoints;
 
-    void Update()
+    [Header("Waves")]
+    [SerializeField] private float timeBetweenWaves = 5f;
+    [SerializeField] private int zombiesPerWave = 5;
+    [SerializeField] private int zombiesIncreasePerWave = 2;
+
+    private int waveNumber;
+    private int aliveZombies;
+
+    private bool waveActive;
+
+    private void Start()
     {
-        timer += Time.deltaTime;
-        if (timer >= timeBetweenWaves)
+        StartCoroutine(StartNextWave());
+    }
+
+    private IEnumerator StartNextWave()
+    {
+        // Пауза перед следующей волной
+        yield return new WaitForSeconds(timeBetweenWaves);
+
+        SpawnWave();
+    }
+
+    private void SpawnWave()
+    {
+        waveNumber++;
+        waveActive = true;
+
+        int count = zombiesPerWave + waveNumber * zombiesIncreasePerWave;
+
+        aliveZombies = count;
+
+        Debug.Log($"Wave {waveNumber} started. Zombies: {count}");
+
+        for (int i = 0; i < count; i++)
         {
-            timer = 0;
-            SpawnWave();
+            Transform spawnPoint =
+                spawnPoints[Random.Range(0, spawnPoints.Length)];
+
+            GameObject zombie = Instantiate(
+                zombiePrefab,
+                spawnPoint.position,
+                Quaternion.identity
+            );
+
+            // Передаём зомби ссылку на его Spawner
+            ZombieDeathReporter reporter =
+                zombie.GetComponent<ZombieDeathReporter>();
+
+            if (reporter == null)
+                reporter = zombie.AddComponent<ZombieDeathReporter>();
+
+            reporter.Initialize(this);
         }
     }
 
-    void SpawnWave()
+    public void OnZombieDied()
     {
-        waveNumber++;
-        int count = zombiesPerWave + waveNumber * 2; // усложняем
-        for (int i = 0; i < count; i++)
+        if (!waveActive)
+            return;
+
+        aliveZombies--;
+
+        Debug.Log($"Zombies left: {aliveZombies}");
+
+        if (aliveZombies <= 0)
         {
-            Transform point = spawnPoints[Random.Range(0, spawnPoints.Length)];
-            Instantiate(zombiePrefab, point.position, Quaternion.identity);
+            aliveZombies = 0;
+            waveActive = false;
+
+            Debug.Log($"Wave {waveNumber} completed!");
+
+            StartCoroutine(StartNextWave());
         }
+    }
+
+    public int GetWaveNumber()
+    {
+        return waveNumber;
+    }
+
+    public int GetAliveZombies()
+    {
+        return aliveZombies;
     }
 }

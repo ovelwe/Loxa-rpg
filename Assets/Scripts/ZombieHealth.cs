@@ -76,6 +76,12 @@ public class ZombieHealth : MonoBehaviour
     {
         Debug.Log("Зомби сдох!");
         
+        ZombieDeathReporter reporter =
+            GetComponent<ZombieDeathReporter>();
+
+        if (reporter != null)
+            reporter.ReportDeath();
+        
         // Вызываем событие смерти
         if (OnZombieDeath != null)
         {
