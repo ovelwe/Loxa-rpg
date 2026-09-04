@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public GameObject caseRewardPanel;
     public TMP_Text rewardText;
     public Image rewardImage;
+    public Text warningText; // UI текст для предупреждений
 
     void Awake()
     {
@@ -22,6 +23,25 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ShowBossWarning(string message)
+    {
+        // Если есть текст для предупреждений
+        if (warningText != null)
+        {
+            warningText.text = message;
+            warningText.gameObject.SetActive(true);
+            Invoke("HideBossWarning", 2f);
+        }
+    }
+
+    void HideBossWarning()
+    {
+        if (warningText != null)
+        {
+            warningText.gameObject.SetActive(false);
+        }
+    }
+    
     void Start()
     {
         // Если GameManager уже существует, обновляем текст

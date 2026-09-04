@@ -1,31 +1,28 @@
 using UnityEngine;
 
-[System.Serializable]
-public class CaseItem
-{
-    public string itemName;
-    public Sprite icon;
-    [Range(0f, 100f)] public float dropChance;
-}
-
 public class CaseSystem : MonoBehaviour
 {
     public CaseItem[] items;
-    public int caseCost = 67; // стоимость в монетах
-    public GameObject caseOpenPanel; // UI панель
+    public int caseCost = 67;
+    public GameObject caseOpenPanel;
     
     [Header("Акатека67")]
-    public GameObject akateka67Prefab; // Префаб Акатеки67
+    public GameObject akateka67Prefab;
+    
+    [Header("Звук открытия кейса")]
+    public AudioClip caseOpenSound; // Звук открытия кейса
+    [Range(0f, 5f)] public float caseOpenSoundVolume = 2f;
     
     public void BuyCase()
     {
-        // Проверяем, хватает ли монет
         if (GameManager.Instance != null && GameManager.Instance.money >= caseCost)
         {
-            // Списываем монеты
             GameManager.Instance.SpendMoney(caseCost);
             Debug.Log("Куплен кейс за " + caseCost + " монет");
-            // Открываем кейс
+            
+            // Проигрываем звук открытия кейса
+            PlayCaseOpenSound();
+            
             OpenCase();
         }
         else
@@ -60,7 +57,9 @@ public class CaseSystem : MonoBehaviour
             }
         }
 
-        // Показываем награду
+        // ПРОИГРЫВАЕМ ЗВУК ВЫПАВШЕГО ПРЕДМЕТА
+        PlayItemDropSound(droppedItem);
+
         if (UIManager.Instance != null)
         {
             UIManager.Instance.ShowCaseReward(droppedItem);
@@ -70,15 +69,50 @@ public class CaseSystem : MonoBehaviour
             Debug.LogError("UIManager.Instance is null!");
         }
         
-        // Применяем предмет
         ApplyItem(droppedItem);
+    }
+
+    void PlayCaseOpenSound()
+    {
+        if (caseOpenSound == null) return;
+        
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySoundNoCooldown(caseOpenSound, transform.position, caseOpenSoundVolume);
+        }
+        else
+        {
+            AudioSource.PlayClipAtPoint(caseOpenSound, transform.position);
+        }
+    }
+    
+    void PlayItemDropSound(CaseItem item)
+    {
+        if (item.dropSound == null) return;
+        
+        // Задержка, чтобы звук выпадения не накладывался на звук открытия
+        StartCoroutine(PlayDropSoundDelayed(item));
+    }
+    
+    System.Collections.IEnumerator PlayDropSoundDelayed(CaseItem item)
+    {
+        // Ждём немного после открытия кейса
+        yield return new WaitForSeconds(0.5f);
+        
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySoundNoCooldown(item.dropSound, transform.position, item.dropSoundVolume);
+        }
+        else
+        {
+            AudioSource.PlayClipAtPoint(item.dropSound, transform.position);
+        }
     }
 
     void ApplyItem(CaseItem item)
     {
         Debug.Log("Выпал предмет: " + item.itemName);
         
-        // Здесь можно применять эффекты
         switch (item.itemName)
         {
             case "Монеты +100":
@@ -89,7 +123,6 @@ public class CaseSystem : MonoBehaviour
                 break;
                 
             case "Урон +10%":
-                // Найди оружие и увеличь урон
                 Weapon[] weapons = FindObjectsOfType<Weapon>();
                 foreach (Weapon weapon in weapons)
                 {
@@ -102,7 +135,6 @@ public class CaseSystem : MonoBehaviour
                 break;
                 
             case "Скин золотой":
-                // Поменяй цвет игрока
                 GameObject player = GameObject.FindGameObjectWithTag("Player");
                 if (player != null)
                 {
@@ -113,10 +145,13 @@ public class CaseSystem : MonoBehaviour
                     }
                 }
                 break;
+                
+            case "Кальян":
+                HealPlayer(10);
+                break;
         }
     }
     
-    // Метод для спавна Акатеки67
     void SpawnAkateka67()
     {
         if (akateka67Prefab == null)
@@ -124,19 +159,35 @@ public class CaseSystem : MonoBehaviour
             Debug.LogError("Акатека67: Префаб не назначен в CaseSystem!");
             return;
         }
-    
-        // Находим игрока
+        
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player == null)
         {
             Debug.LogError("Акатека67: Игрок не найден!");
             return;
         }
-    
-        // Спавним Акатеку ВЫСОКО НАД игроком (3 единицы вверх)
+        
         Vector3 spawnPosition = player.transform.position + Vector3.up * 3f;
         GameObject akateka = Instantiate(akateka67Prefab, spawnPosition, Quaternion.identity);
+        
+        Debug.Log("Акатека67 появился!");
+    }
     
-        Debug.Log("Акатека67: Заспавнен на позиции " + spawnPosition);
+    void HealPlayer(int healAmount)
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+        {
+            Debug.LogError("Кальян: Игрок не найден!");
+            return;
+        }
+        
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            playerHealth.Heal(healAmount);
+            playerHealth.PlayHealEffect();
+            Debug.Log("Кальян выкурен! +" + healAmount + " HP!");
+        }
     }
 }

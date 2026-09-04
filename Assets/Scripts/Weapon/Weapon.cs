@@ -9,9 +9,15 @@ public class Weapon : MonoBehaviour
     public int pelletsPerShot = 1; // для дробовика
     public float spreadAngle = 0f; // разброс в градусах
 
+    [Header("Настройки стрельбы")]
     public GameObject bulletPrefab;
     public Transform firePoint;
+    
+    [Header("Звук выстрела")]
     public AudioClip shootSound;
+    [Range(0f, 5f)] public float shootSoundVolume = 1f; // Громкость выстрела
+    [Range(0.5f, 2f)] public float shootPitchMin = 0.9f; // Минимальный тон
+    [Range(0.5f, 2f)] public float shootPitchMax = 1.1f; // Максимальный тон
 
     private float nextFireTime;
 
@@ -26,6 +32,7 @@ public class Weapon : MonoBehaviour
 
     protected virtual void Shoot()
     {
+        // Создаём пули
         for (int i = 0; i < pelletsPerShot; i++)
         {
             float angle = Random.Range(-spreadAngle, spreadAngle);
@@ -37,6 +44,39 @@ public class Weapon : MonoBehaviour
                 bulletScript.Init(damage, bulletSpeed);
             }
         }
-        if (shootSound != null) AudioSource.PlayClipAtPoint(shootSound, firePoint.position);
+        
+        // Проигрываем звук выстрела
+        PlayShootSound();
+    }
+    
+    void PlayShootSound()
+    {
+        if (shootSound == null) return;
+        
+        if (SoundManager.Instance != null)
+        {
+            // Используем SoundManager (звук без кулдауна, чтобы каждый выстрел был слышен)
+            SoundManager.Instance.PlaySoundNoCooldown(
+                shootSound, 
+                firePoint.position, 
+                shootSoundVolume
+            );
+        }
+        else
+        {
+            // Если SoundManager нет — проигрываем напрямую с громкостью
+            GameObject soundObject = new GameObject("ShootSound");
+            soundObject.transform.position = firePoint.position;
+            
+            AudioSource audioSource = soundObject.AddComponent<AudioSource>();
+            audioSource.clip = shootSound;
+            audioSource.volume = shootSoundVolume;
+            audioSource.spatialBlend = 0f; // 2D звук
+            audioSource.pitch = Random.Range(shootPitchMin, shootPitchMax); // Разброс тона
+            
+            audioSource.Play();
+            
+            Destroy(soundObject, shootSound.length);
+        }
     }
 }

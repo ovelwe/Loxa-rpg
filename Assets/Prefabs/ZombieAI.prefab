@@ -688,7 +688,9 @@ MonoBehaviour:
   maxHealth: 30
   moneyReward: 10
   deathSound: {fileID: 8300000, guid: d0cca1d35957813439c9e054db456d9f, type: 3}
-  deathSoundVolume: 4.1
+  hurtSound: {fileID: 8300000, guid: 78784cf6a03108d46b8ca6d686043ee4, type: 3}
+  deathSoundVolume: 0.59
+  hurtSoundVolume: 0.61
   worldHealthBar: {fileID: 4779436161946367252}
 --- !u!114 &4971145304189356390
 MonoBehaviour:
@@ -704,8 +706,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ZombieAI
   moveSpeed: 2
   attackDamage: 10
-  attackRange: 1.5
+  attackRange: 5
   attackCooldown: 1
   detectionRange: 67
   attackSound: {fileID: 8300000, guid: 104bd547ec67c1141a00a9134645c7d6, type: 3}
-  attackSoundVolume: 3.22
+  attackSoundVolume: 0.72
