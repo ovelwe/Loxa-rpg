@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using UnityEngine.SceneManagement; // Для перезапуска сцены
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -10,15 +11,19 @@ public class PlayerHealth : MonoBehaviour
     private int currentHealth;
     
     [Header("UI")]
-    public Slider healthSlider; // Слайдер для ХП (сверху экрана)
-    public TMP_Text healthText; // Текст с цифрами ХП
+    public Slider healthSlider;
+    public TMP_Text healthText;
     
     [Header("Эффект урона")]
-    public float flashDuration = 0.3f; // Длительность красного мигания
-    public SpriteRenderer playerSprite; // Спрайт игрока
+    public float flashDuration = 0.3f;
+    public SpriteRenderer playerSprite;
     
     [Header("Эффект лечения")]
-    public Color healColor = Color.green; // Цвет при хиле
+    public Color healColor = Color.green;
+    
+    [Header("Смерть")]
+    public GameObject deathPanel; // Панель смерти (UI)
+    public float deathDelay = 2f; // Задержка перед перезапуском
     
     private Color originalColor;
     private Coroutine damageFlashCoroutine;
@@ -29,17 +34,14 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
         
-        // Настройка ХП бара
         if (healthSlider != null)
         {
             healthSlider.maxValue = maxHealth;
             healthSlider.value = currentHealth;
         }
         
-        // Настройка текста
         UpdateHealthText();
         
-        // Получаем спрайт игрока
         if (playerSprite == null)
         {
             playerSprite = GetComponent<SpriteRenderer>();
@@ -49,6 +51,12 @@ public class PlayerHealth : MonoBehaviour
         {
             originalColor = playerSprite.color;
         }
+        
+        // Скрываем панель смерти
+        if (deathPanel != null)
+        {
+            deathPanel.SetActive(false);
+        }
     }
     
     public void TakeDamage(int amount)
@@ -56,13 +64,17 @@ public class PlayerHealth : MonoBehaviour
         if (isDead) return;
         
         currentHealth -= amount;
+        
+        // НЕ ДАЁМ ХП УЙТИ В МИНУС
+        if (currentHealth < 0)
+        {
+            currentHealth = 0;
+        }
+        
         Debug.Log("Игрок получил урон: " + amount + ", осталось HP: " + currentHealth);
         
-        // Обновляем UI
         UpdateHealthBar();
         UpdateHealthText();
-        
-        // Показываем эффект урона
         ShowDamageEffect();
         
         if (currentHealth <= 0)
@@ -77,7 +89,6 @@ public class PlayerHealth : MonoBehaviour
         
         currentHealth += amount;
         
-        // Не превышаем максимум
         if (currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
@@ -85,11 +96,8 @@ public class PlayerHealth : MonoBehaviour
         
         Debug.Log("Игрок вылечился на " + amount + ", теперь HP: " + currentHealth);
         
-        // Обновляем UI
         UpdateHealthBar();
         UpdateHealthText();
-        
-        // Показываем эффект лечения
         PlayHealEffect();
     }
     
@@ -97,10 +105,8 @@ public class PlayerHealth : MonoBehaviour
     {
         if (healthSlider != null)
         {
-            // Плавно меняем значение
             StartCoroutine(SmoothHealthChange(currentHealth));
         
-            // Меняем цвет в зависимости от здоровья
             Image fillImage = healthSlider.fillRect.GetComponent<Image>();
             if (fillImage != null)
             {
@@ -149,7 +155,6 @@ public class PlayerHealth : MonoBehaviour
     
     void ShowDamageEffect()
     {
-        // Останавливаем предыдущую корутину
         if (damageFlashCoroutine != null)
         {
             StopCoroutine(damageFlashCoroutine);
@@ -161,7 +166,6 @@ public class PlayerHealth : MonoBehaviour
     {
         if (playerSprite == null) yield break;
         
-        // Мигаем красным несколько раз
         for (int i = 0; i < 3; i++)
         {
             playerSprite.color = Color.red;
@@ -170,14 +174,11 @@ public class PlayerHealth : MonoBehaviour
             yield return new WaitForSeconds(flashDuration / 6);
         }
         
-        // Возвращаем оригинальный цвет
         playerSprite.color = originalColor;
     }
     
-    // Публичный метод для эффекта хила
     public void PlayHealEffect()
     {
-        // Останавливаем предыдущую корутину
         if (healFlashCoroutine != null)
         {
             StopCoroutine(healFlashCoroutine);
@@ -189,7 +190,6 @@ public class PlayerHealth : MonoBehaviour
     {
         if (playerSprite == null) yield break;
         
-        // Мигаем зелёным при хиле
         for (int i = 0; i < 3; i++)
         {
             playerSprite.color = healColor;
@@ -198,7 +198,6 @@ public class PlayerHealth : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         
-        // Возвращаем оригинальный цвет
         playerSprite.color = originalColor;
     }
     
@@ -209,11 +208,41 @@ public class PlayerHealth : MonoBehaviour
         
         Debug.Log("ИГРОК ПОГИБ!");
         
-        // Можно добавить перезапуск сцены или Game Over
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        // Останавливаем движение
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+        
+        // Отключаем управление
+        MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour script in scripts)
+        {
+            if (script != this && script != null)
+            {
+                script.enabled = false;
+            }
+        }
+        
+        // Показываем панель смерти
+        if (deathPanel != null)
+        {
+            deathPanel.SetActive(true);
+        }
+        
+        // Запускаем перезапуск
+        StartCoroutine(RestartAfterDeath());
     }
     
-    // Дополнительные методы
+    IEnumerator RestartAfterDeath()
+    {
+        yield return new WaitForSeconds(deathDelay);
+        
+        // Перезапускаем текущую сцену
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
     
     public int GetCurrentHealth()
     {
@@ -230,7 +259,6 @@ public class PlayerHealth : MonoBehaviour
         return isDead;
     }
     
-    // Метод для полного восстановления (если нужно)
     public void FullHeal()
     {
         currentHealth = maxHealth;
