@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c22834ecb6b41128c6c79b3de93206a, type: 3}
   m_Name: Meow Drop Behaviour
   m_EditorClassIdentifier: Assembly-CSharp::Cases.Drop.Behaviour.Implementation.MeowDrop
+  akateka67Prefab: {fileID: 794810182877333818, guid: 3dbfde85a7e2bdf45bc179c1f2b4fafd, type: 3}

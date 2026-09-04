@@ -32,7 +32,11 @@ namespace UI
             
             container.gameObject.SetActive(true);
             
-            claimButton.onClick.AddListener(HideWindow);
+            claimButton.onClick.AddListener(() =>
+            {
+                dropData.ApplyDrop();
+                HideWindow();
+            });
         }
 
         private void HideWindow()

@@ -51,7 +51,6 @@ namespace Cases
             // показать окно победы и т.д.
             
             G.DropRewardUI.ShowWindow(winner);
-            winner.ApplyDrop();
 
             if (openButton != null)
                 openButton.interactable = true;

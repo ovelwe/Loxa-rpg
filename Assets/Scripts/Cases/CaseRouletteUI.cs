@@ -134,6 +134,8 @@ namespace Cases
 
             IsSpinning = false;
             onFinished?.Invoke();
+            
+            Clear();
         }
 
         public void Clear()
