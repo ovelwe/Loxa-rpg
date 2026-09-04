@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using Random = UnityEngine.Random;
 
 public class ZombieHealth : MonoBehaviour
 {
@@ -9,15 +8,14 @@ public class ZombieHealth : MonoBehaviour
     public int moneyReward = 10;
     
     [Header("Звуки")]
-    public AudioClip deathSound; // Звук смерти
+    public AudioClip deathSound;
+    public AudioClip hurtSound;
     
-    [Header("Громкость (можно больше 1!)")]
-    [Range(0f, 5f)] public float deathSoundVolume = 2f; // Громкость смерти
+    [Header("Громкость")]
+    [Range(0f, 5f)] public float deathSoundVolume = 2f;
+    [Range(0f, 5f)] public float hurtSoundVolume = 2f;
     
-    // Событие смерти
     public event Action<GameObject> OnZombieDeath;
-    
-    // World Space HP бар
     public WorldHealthBar worldHealthBar;
     
     private SpriteRenderer spriteRenderer;
@@ -32,7 +30,6 @@ public class ZombieHealth : MonoBehaviour
             originalColor = spriteRenderer.color;
         }
         
-        // Обновляем ХП бар при старте
         UpdateHealthBar();
     }
 
@@ -41,16 +38,16 @@ public class ZombieHealth : MonoBehaviour
         currentHealth -= amount;
         Debug.Log("Зомби получил урон: " + amount + ", осталось HP: " + currentHealth);
         
-        // Показываем урон (если есть DamagePopup)
+        // Используем SoundManager для звука урона (с кулдауном)
+        PlayHurtSound();
+        
         if (DamagePopup.Instance != null)
         {
             DamagePopup.Instance.ShowDamage(transform.position + Vector3.up * 0.5f, amount);
         }
         
-        // Обновляем ХП бар
         UpdateHealthBar();
         
-        // Мигаем красным при уроне
         if (spriteRenderer != null)
         {
             spriteRenderer.color = Color.red;
@@ -63,7 +60,6 @@ public class ZombieHealth : MonoBehaviour
         }
     }
 
-    
     void UpdateHealthBar()
     {
         if (worldHealthBar != null)
@@ -79,31 +75,37 @@ public class ZombieHealth : MonoBehaviour
             spriteRenderer.color = originalColor;
         }
     }
+    
+    void PlayHurtSound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            // Используем специальный метод с кулдауном
+            SoundManager.Instance.PlayHurtSound(hurtSound, transform.position, hurtSoundVolume);
+        }
+        else
+        {
+            // Если SoundManager нет — проигрываем напрямую
+            if (hurtSound != null)
+            {
+                AudioSource.PlayClipAtPoint(hurtSound, transform.position);
+            }
+        }
+    }
 
-    // Проигрываем звук смерти с настройкой громкости
     public void PlayDeathSound()
     {
-        if (deathSound != null)
+        if (SoundManager.Instance != null)
         {
-            // Создаём временный объект для ГРОМКОГО звука
-            GameObject soundObject = new GameObject("LoudDeathSound");
-            soundObject.transform.position = transform.position;
-            
-            AudioSource audioSource = soundObject.AddComponent<AudioSource>();
-            audioSource.clip = deathSound;
-            
-            // НАСТРОЙКА ГРОМКОСТИ
-            audioSource.volume = deathSoundVolume; // Может быть 2, 3, 5!
-            audioSource.spatialBlend = 0f; // 0 = 2D звук (слышно везде одинаково)
-            audioSource.bypassEffects = true;
-            audioSource.bypassListenerEffects = true;
-            audioSource.bypassReverbZones = true;
-            audioSource.pitch = Random.Range(0.9f, 1.1f); // Разброс тона
-            
-            audioSource.Play();
-            
-            // Уничтожаем после проигрывания
-            Destroy(soundObject, deathSound.length);
+            // Звук смерти без кулдауна
+            SoundManager.Instance.PlaySoundNoCooldown(deathSound, transform.position, deathSoundVolume);
+        }
+        else
+        {
+            if (deathSound != null)
+            {
+                AudioSource.PlayClipAtPoint(deathSound, transform.position);
+            }
         }
     }
     
@@ -111,16 +113,12 @@ public class ZombieHealth : MonoBehaviour
     {
         Debug.Log("Зомби сдох!");
         
-        ZombieDeathReporter reporter =
-            GetComponent<ZombieDeathReporter>();
-
+        ZombieDeathReporter reporter = GetComponent<ZombieDeathReporter>();
         if (reporter != null)
             reporter.ReportDeath();
         
-        // Проигрываем звук смерти
         PlayDeathSound();
         
-        // Вызываем событие смерти
         if (OnZombieDeath != null)
         {
             OnZombieDeath(gameObject);
