@@ -45,6 +45,11 @@
 # Visual Studio cache directory
 .vs/
 
+# Patapim files
+.idea/
+Builds/
+WindowsBuilds/
+
 # Gradle cache directory
 .gradle/
 
