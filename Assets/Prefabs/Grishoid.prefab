@@ -439,9 +439,9 @@ MonoBehaviour:
   dashDistance: 50
   dashCooldown: 5
   dashDuration: 0.3
-  slamRadius: 18
+  slamRadius: 14
   slamDamage: 10
-  slamCooldown: 3
+  slamCooldown: 4
   slamJumpHeight: 3
   slamJumpDuration: 0.3
   slamFallDuration: 0.3
