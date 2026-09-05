@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 93f434035499f6745b286f211166aeb5
+guid: 064508f3702b122408f4ca56b28f19e4
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Glina Script em.
+  - Home Video
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

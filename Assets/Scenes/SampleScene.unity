@@ -3108,8 +3108,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 98, y: -50}
-  m_SizeDelta: {x: 329.478, y: 84.7381}
+  m_AnchoredPosition: {x: 98, y: -44.973}
+  m_SizeDelta: {x: 418.2617, y: 69.4262}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1308454969
 MonoBehaviour:
@@ -3133,8 +3133,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u041C\u043E\u043D\u0435\u0442\u044B: 67"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
-  m_sharedMaterial: {fileID: 1935144746746699791, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: baa7e5b4bc6af3a43953794ae5859128, type: 2}
+  m_sharedMaterial: {fileID: 8340190104352569578, guid: baa7e5b4bc6af3a43953794ae5859128, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3197,7 +3197,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 2.1139524, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3678,76 +3678,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519438043}
   m_CullTransparentMesh: 1
---- !u!1 &1555430554
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1555430556}
-  - component: {fileID: 1555430555}
-  m_Layer: 0
-  m_Name: CaseSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1555430555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555430554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5e2898a9fd94c498d7489feed2d2925, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CaseSystem
-  items:
-  - itemName: "\u0421\u043A\u0438\u043D \u041F\u0430\u0442\u0430\u043F\u0438\u043C\u0430 (Rare)"
-    icon: {fileID: 7172865883802529632, guid: cea2c59d3253ecd45917e11ce480ac13, type: 3}
-    dropChance: 7.7
-    dropSound: {fileID: 0}
-    dropSoundVolume: 2
-  - itemName: "\u0423\u0440\u043E\u043D +67%"
-    icon: {fileID: 21300000, guid: e0734eac16bdd5342a6a43b5c807c22e, type: 3}
-    dropChance: 19
-    dropSound: {fileID: 8300000, guid: 799984100c62c5046a42692369217949, type: 3}
-    dropSoundVolume: 2.75
-  - itemName: "\u0410\u043A\u0430\u0442\u0435\u043A\u043067"
-    icon: {fileID: 21300000, guid: 0f9e00b7eb5cdc443bb37b9e56538b47, type: 3}
-    dropChance: 76.9
-    dropSound: {fileID: 8300000, guid: e16ac47494fbef54fbf36594f6031c86, type: 3}
-    dropSoundVolume: 3.02
-  - itemName: "\u041A\u0430\u043B\u044C\u044F\u043D"
-    icon: {fileID: 21300000, guid: 634311b998ebde74db9ad18a1e6c2fbe, type: 3}
-    dropChance: 78.1
-    dropSound: {fileID: 8300000, guid: 2e8ea41231395c14ebbda6ccfc294864, type: 3}
-    dropSoundVolume: 2
-  caseCost: 50
-  caseOpenPanel: {fileID: 404783570}
-  akateka67Prefab: {fileID: 794810182877333818, guid: 3dbfde85a7e2bdf45bc179c1f2b4fafd, type: 3}
-  caseOpenSound: {fileID: 0}
-  caseOpenSoundVolume: 2
---- !u!4 &1555430556
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555430554}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1280, y: 720, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1612016613
 GameObject:
   m_ObjectHideFlags: 0
@@ -4076,8 +4006,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u041A\u0443\u043F\u0438\u0442\u044C \u041A\u0435\u0439\u0441 (67$)"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
-  m_sharedMaterial: {fileID: 1935144746746699791, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: baa7e5b4bc6af3a43953794ae5859128, type: 2}
+  m_sharedMaterial: {fileID: 8340190104352569578, guid: baa7e5b4bc6af3a43953794ae5859128, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4101,13 +4031,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 58
-  m_fontSizeBase: 58
+  m_fontSize: 38
+  m_fontSizeBase: 38
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
   m_fontSizeMax: 0
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -4533,7 +4463,6 @@ SceneRoots:
   - {fileID: 1432480542}
   - {fileID: 1238621669}
   - {fileID: 241102764}
-  - {fileID: 1555430556}
   - {fileID: 808874073}
   - {fileID: 38978570}
   - {fileID: 120574783}

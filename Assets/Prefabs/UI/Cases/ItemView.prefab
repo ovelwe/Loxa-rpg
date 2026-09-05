@@ -232,8 +232,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Akateku67
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 636974cd6a8039c4cad23de8d7916541, type: 2}
-  m_sharedMaterial: {fileID: 1959021680319049948, guid: 636974cd6a8039c4cad23de8d7916541, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: baa7e5b4bc6af3a43953794ae5859128, type: 2}
+  m_sharedMaterial: {fileID: 8340190104352569578, guid: baa7e5b4bc6af3a43953794ae5859128, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -336,8 +336,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000015258789}
-  m_SizeDelta: {x: 164.631, y: 164.631}
+  m_AnchoredPosition: {x: 0.001009, y: -0.000015258789}
+  m_SizeDelta: {x: 284.67, y: 184.68}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5641834675724570229
 CanvasRenderer:
