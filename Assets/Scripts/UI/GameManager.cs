@@ -1,57 +1,48 @@
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+namespace LoxaRPG.Core
 {
-    public static GameManager Instance;
-    public int money = 0;
-
-    void Awake()
+    /// <summary>
+    /// Ядро игры. Отвечает за глобальное состояние.
+    /// Деньги убраны в PlayerWallet, тут только пауза и рестарт.
+    /// </summary>
+    public class GameManager : MonoBehaviour
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // чтобы не удалялся при перезагрузке сцены
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+        public static GameManager Instance { get; private set; }
 
-    void Start()
-    {
-        // Обновляем UI при старте
-        if (UIManager.Instance != null)
-        {
-            UIManager.Instance.UpdateMoneyText(money);
-        }
-    }
+        public bool IsPaused { get; private set; }
 
-    public void AddMoney(int amount)
-    {
-        money += amount;
-        // Обновить UI
-        if (UIManager.Instance != null)
+        private void Awake()
         {
-            UIManager.Instance.UpdateMoneyText(money);
-        }
-        else
-        {
-            Debug.LogError("UIManager.Instance is null! Забыл создать UIManager на сцене?");
-        }
-    }
-
-    public bool SpendMoney(int amount)
-    {
-        if (money >= amount)
-        {
-            money -= amount;
-            if (UIManager.Instance != null)
+            if (Instance == null)
             {
-                UIManager.Instance.UpdateMoneyText(money);
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
             }
-            return true;
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        return false;
+
+        public void PauseGame()
+        {
+            IsPaused = true;
+            Time.timeScale = 0f;
+        }
+
+        public void ResumeGame()
+        {
+            IsPaused = false;
+            Time.timeScale = 1f;
+        }
+
+        public void RestartScene()
+        {
+            Time.timeScale = 1f;
+            UnityEngine.SceneManagement.SceneManager.LoadScene(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
+            );
+        }
     }
 }

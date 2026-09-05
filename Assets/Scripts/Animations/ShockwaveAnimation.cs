@@ -1,52 +1,66 @@
 using UnityEngine;
 using System.Collections;
 
-public class ShockwaveAnimation : MonoBehaviour
+namespace LoxaRPG.Animations
 {
-    private float maxScale;
-    private float duration;
-    private bool isAnimating = false;
-    
-    public void Initialize(float maxSize, float animDuration)
+    /// <summary>
+    /// Анимация ударной волны.
+    /// Расширяется и затухает. Не зависит от босса, работает автономно.
+    /// </summary>
+    public class ShockwaveAnimation : MonoBehaviour
     {
-        maxScale = maxSize;
-        duration = animDuration;
-    }
-    
-    public void StartAnimation()
-    {
-        if (!isAnimating)
+        private float _maxScale;
+        private float _duration;
+        private bool _isAnimating;
+
+        /// <summary>
+        /// Задать параметры волны.
+        /// </summary>
+        public void Initialize(float maxSize, float animDuration)
         {
-            StartCoroutine(Animate());
+            _maxScale = maxSize;
+            _duration = animDuration;
         }
-    }
-    
-    IEnumerator Animate()
-    {
-        isAnimating = true;
-        float timer = 0;
-        
-        Vector3 startScale = transform.localScale;
-        Vector3 endScale = Vector3.one * maxScale;
-        
-        while (timer < duration)
+
+        /// <summary>
+        /// Запустить анимацию. Повторный вызов игнорируется.
+        /// </summary>
+        public void StartAnimation()
         {
-            timer += Time.deltaTime;
-            float t = timer / duration;
-            
-            transform.localScale = Vector3.Lerp(startScale, endScale, t);
-            
-            SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-            if (renderer != null)
+            if (!_isAnimating)
             {
-                Color color = renderer.color;
-                color.a = Mathf.Lerp(0.8f, 0f, t);
-                renderer.color = color;
+                StartCoroutine(Animate());
             }
-            
-            yield return null;
         }
-        
-        Destroy(gameObject);
+
+        private IEnumerator Animate()
+        {
+            _isAnimating = true;
+            float timer = 0;
+
+            var startScale = transform.localScale;
+            var endScale = Vector3.one * _maxScale;
+
+            while (timer < _duration)
+            {
+                timer += Time.deltaTime;
+                float t = timer / _duration;
+
+                // Расширяемся
+                transform.localScale = Vector3.Lerp(startScale, endScale, t);
+
+                // Затухаем
+                if (TryGetComponent<SpriteRenderer>(out var renderer))
+                {
+                    var color = renderer.color;
+                    color.a = Mathf.Lerp(0.8f, 0f, t);
+                    renderer.color = color;
+                }
+
+                yield return null;
+            }
+
+            Destroy(gameObject); // всё, отжила своё
+        }
     }
 }

@@ -1,77 +1,70 @@
 using TMPro;
 using UnityEngine;
-public class DamageTextAnimation : MonoBehaviour
+
+namespace LoxaRPG.UI
 {
-    private float timer = 0;
-    private Vector3 moveDirection;
-    private float lifeTime;
-    private float moveSpeed;
-    private TMP_Text textMesh;
-    
-    public void Setup(float damageAmount, float lifetime, float speed)
+    /// <summary>
+    /// Анимация всплывающего урона.
+    /// Текст летит вверх и затухает.
+    /// </summary>
+    public class DamageTextAnimation : MonoBehaviour
     {
-        lifeTime = lifetime;
-        moveSpeed = speed;
-        
-        // Получаем или создаём TextMesh
-        textMesh = GetComponent<TMP_Text>();
-        if (textMesh == null)
+        private float _timer;
+        private Vector3 _moveDirection;
+        private float _lifeTime;
+        private float _moveSpeed;
+        private TMP_Text _text;
+
+        public void Setup(float damageAmount, float lifetime, float speed)
         {
-            textMesh = gameObject.AddComponent<TMP_Text>();
+            _lifeTime = lifetime;
+            _moveSpeed = speed;
+
+            _text = GetComponent<TMP_Text>();
+            if (_text == null)
+            {
+                _text = gameObject.AddComponent<TMP_Text>();
+            }
+
+            _text.text = Mathf.RoundToInt(damageAmount).ToString();
+            _text.fontSize = 36;
+            _text.color = GetColorForDamage(damageAmount);
+
+            // Случайное направление разлёта
+            float angle = Random.Range(-45f, 45f) + 90f;
+            float radians = angle * Mathf.Deg2Rad;
+            _moveDirection = new Vector3(Mathf.Cos(radians), Mathf.Sin(radians), 0).normalized;
+
+            if (Camera.main != null)
+            {
+                transform.rotation = Camera.main.transform.rotation;
+            }
         }
-        
-        // Настраиваем текст
-        textMesh.text = Mathf.RoundToInt(damageAmount).ToString();
-        textMesh.fontSize = 36;
-        textMesh.color = GetColorForDamage(damageAmount);
-        
-        // Случайное направление разлёта
-        float angle = Random.Range(-45f, 45f) + 90f;
-        float radians = angle * Mathf.Deg2Rad;
-        moveDirection = new Vector3(Mathf.Cos(radians), Mathf.Sin(radians), 0).normalized;
-        
-        // Поворачиваем текст к камере
-        if (Camera.main != null)
+
+        private Color GetColorForDamage(float damage)
         {
-            transform.rotation = Camera.main.transform.rotation;
+            if (damage >= 20) return Color.red;
+            if (damage >= 10) return Color.yellow;
+            return Color.white;
         }
-    }
-    
-    Color GetColorForDamage(float damage)
-    {
-        if (damage >= 20)
+
+        private void Update()
         {
-            return Color.red; // Большой урон - красный
-        }
-        else if (damage >= 10)
-        {
-            return Color.yellow; // Средний урон - жёлтый
-        }
-        else
-        {
-            return Color.white; // Маленький урон - белый
-        }
-    }
-    
-    void Update()
-    {
-        timer += Time.deltaTime;
-        
-        // Двигаем вверх
-        transform.position += moveDirection * moveSpeed * Time.deltaTime;
-        
-        // Постепенно затухаем
-        if (textMesh != null && timer >= lifeTime * 0.5f)
-        {
-            Color color = textMesh.color;
-            color.a -= Time.deltaTime * 2f;
-            textMesh.color = color;
-        }
-        
-        // Уничтожаем
-        if (timer >= lifeTime)
-        {
-            Destroy(gameObject);
+            _timer += Time.deltaTime;
+
+            transform.position += _moveDirection * _moveSpeed * Time.deltaTime;
+
+            if (_text != null && _timer >= _lifeTime * 0.5f)
+            {
+                var color = _text.color;
+                color.a -= Time.deltaTime * 2f;
+                _text.color = color;
+            }
+
+            if (_timer >= _lifeTime)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

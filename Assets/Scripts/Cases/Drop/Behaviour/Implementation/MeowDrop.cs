@@ -1,36 +1,42 @@
+using Cases.Drop.Behaviour;
 using UnityEngine;
 
-namespace Cases.Drop.Behaviour.Implementation
+namespace LoxaRPG.Cases.Drop.Behaviour.Implementation
 {
+    /// <summary>
+    /// Спавнит Акатеку67 — боевого компаньона.
+    /// </summary>
     [CreateAssetMenu(fileName = "Meow Drop Behaviour", menuName = "Cases/Drop/Behaviour/Akateku67", order = 0)]
     public class MeowDrop : DropBehaviour
     {
-        [field: SerializeField] public GameObject akateka67Prefab;
-        
+        [SerializeField] private GameObject akateka67Prefab;
+        [SerializeField] private float spawnHeight = 3f; // высота спавна над игроком
+
         public override void ApplyDrop()
         {
             SpawnAkateka67();
         }
-        
+
         private void SpawnAkateka67()
         {
             if (akateka67Prefab == null)
             {
-                Debug.LogError("Акатека67: Префаб не назначен в CaseSystem!");
+                Debug.LogError("MeowDrop: Префаб Акатеки67 не назначен!");
                 return;
             }
-        
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            var player = GameObject.FindGameObjectWithTag("Player");
+
             if (player == null)
             {
-                Debug.LogError("Акатека67: Игрок не найден!");
+                Debug.LogError("MeowDrop: Игрок не найден!");
                 return;
             }
-        
-            Vector3 spawnPosition = player.transform.position + Vector3.up * 3f;
-            GameObject _ = Instantiate(akateka67Prefab, spawnPosition, Quaternion.identity);
-        
-            Debug.Log("Акатека67 появился!");
+
+            var spawnPosition = player.transform.position + Vector3.up * spawnHeight;
+            Instantiate(akateka67Prefab, spawnPosition, Quaternion.identity);
+
+            Debug.Log("MeowDrop: Акатека67 появился!");
         }
     }
 }

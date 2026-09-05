@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0413\u0420\u0418\u0428\u041E\u0418\u0414"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
-  m_sharedMaterial: {fileID: 1935144746746699791, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -261,6 +261,13 @@ GameObject:
   - component: {fileID: 3451448927590246728}
   - component: {fileID: 6696610803053018763}
   - component: {fileID: 8953543925455981303}
+  - component: {fileID: 5126162847853345801}
+  - component: {fileID: 2404635633969268566}
+  - component: {fileID: 1200850126103031670}
+  - component: {fileID: 4598577550682122244}
+  - component: {fileID: -4873864628006583983}
+  - component: {fileID: 3899244293314415238}
+  - component: {fileID: 598244432586042695}
   m_Layer: 0
   m_Name: Grishoid
   m_TagString: Boss
@@ -427,34 +434,150 @@ MonoBehaviour:
   m_GameObject: {fileID: 3528125531189285452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1b0ad4518544692933822d18954b6f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 05cf1aadf024412fb690182f92f76825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrishoidBoss
-  maxHealth: 667
-  moveSpeed: 3
-  attackDamage: 15
-  attackRange: 20
-  detectionRange: 20
-  dashSpeed: 20
-  dashDistance: 50
-  dashCooldown: 5
-  dashDuration: 0.3
-  slamRadius: 14
-  slamDamage: 10
-  slamCooldown: 4
-  slamJumpHeight: 3
-  slamJumpDuration: 0.3
-  slamFallDuration: 0.3
-  healthBarSlider: {fileID: 3976194993288421711}
-  healthBarObject: {fileID: 2386330908850420747}
-  bossNameText: {fileID: 3609186858980042079}
+  attackRange: 15
+  attackDelay: 1
+--- !u!114 &5126162847853345801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528125531189285452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df6ecdefb10e4f46b334f00eb306fd2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoxaRPG.Enemies.Bosses.Grishoid.GrishoidDashAttack
+  dashDistance: 16
+  dashDuration: 1
+  dashCooldown: 2
+  dashDamage: 20
+  hitRadius: 3
   dashSound: {fileID: 8300000, guid: 8f52e91b73c43b2428d69e9383ec0f22, type: 3}
-  attackSound: {fileID: 8300000, guid: 7c79afaa8f5ae6d4bb5c50ee351bc165, type: 3}
-  slamSound: {fileID: 8300000, guid: df1f0ccc6b532bd4ab8968fa86e57d4d, type: 3}
+  dashVolume: 2
+  dashPitch: 1.51
+  impactSound: {fileID: 8300000, guid: 7c79afaa8f5ae6d4bb5c50ee351bc165, type: 3}
+  impactVolume: 2
+  impactPitch: 0.56
+--- !u!114 &2404635633969268566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528125531189285452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c3cd074609e4425a87d160ec2631551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoxaRPG.Enemies.Bosses.Grishoid.GrishoidHealth
+  maxHealth: 300
+  moneyReward: 500
   hurtSound: {fileID: 8300000, guid: 98d862a05d422ef46ad441ac79cec716, type: 3}
-  soundVolume: 3.06
-  hurtSoundVolume: 0.48
+  hurtSoundVolume: 0.69
+  flashDuration: 0.1
   hurtSoundCooldown: 0.3
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1200850126103031670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528125531189285452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ee92fd3ec16487d80e3511168a8c46c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoxaRPG.Enemies.Bosses.Grishoid.GrishoidMovement
+  moveSpeed: 4
+--- !u!114 &4598577550682122244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528125531189285452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa6cf9ee5d4f4b12bb0ffdf7e70a4c78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoxaRPG.Enemies.Bosses.Grishoid.GrishoidSlamAttack
+  slamRadius: 20
+  slamDamage: 15
+  slamCooldown: 10
+  jumpHeight: 3
+  jumpDuration: 0.3
+  fallDuration: 0.2
+  stunDuration: 1.5
+  slamSound: {fileID: 8300000, guid: df1f0ccc6b532bd4ab8968fa86e57d4d, type: 3}
+  soundVolume: 1.61
+  soundPitch: 1
+  waveColor: {r: 0.7075472, g: 0.014767268, b: 0, a: 0.8}
+  waveDuration: 0.2
+--- !u!114 &-4873864628006583983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528125531189285452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf0b33e4e474df0a6ec8d1d34b2900c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoxaRPG.Enemies.Components.ZombieDeathReporter
+--- !u!114 &3899244293314415238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528125531189285452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ed4377fdef041629a4ee0e247662cf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoxaRPG.Enemies.Bosses.Grishoid.GrishoidNormalAttack
+  attackRange: 2.5
+  attackDamage: 15
+  attackCooldown: 2
+  windupDuration: 0.2
+  returnDuration: 0.2
+  attackSound: {fileID: 0}
+  soundVolume: 2
+  soundPitch: 1
+--- !u!114 &598244432586042695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528125531189285452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ed4377fdef041629a4ee0e247662cf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoxaRPG.Enemies.Bosses.Grishoid.GrishoidNormalAttack
+  attackRange: 14
+  attackDamage: 15
+  attackCooldown: 2
+  windupDuration: 0.2
+  returnDuration: 0.2
+  attackSound: {fileID: 8300000, guid: 7c79afaa8f5ae6d4bb5c50ee351bc165, type: 3}
+  soundVolume: 2.14
+  soundPitch: 1
 --- !u!1 &7479700450497482403
 GameObject:
   m_ObjectHideFlags: 0

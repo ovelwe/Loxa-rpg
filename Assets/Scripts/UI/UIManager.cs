@@ -2,97 +2,72 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+namespace LoxaRPG.UI
 {
-    public static UIManager Instance;
-    public TMP_Text moneyText;
-    public GameObject caseRewardPanel;
-    public TMP_Text rewardText;
-    public Image rewardImage;
-    public Text warningText; // UI текст для предупреждений
-
-    void Awake()
+    /// <summary>
+    /// Управляет основным UI: предупреждения, награды.
+    /// Деньги убраны в MoneyText + PlayerWallet.
+    /// </summary>
+    public class UIManager : MonoBehaviour
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+        public static UIManager Instance { get; private set; }
 
-    public void ShowBossWarning(string message)
-    {
-        // Если есть текст для предупреждений
-        if (warningText != null)
+        [Header("Boss Warning")]
+        [SerializeField] private TMP_Text warningText;
+
+        [Header("Reward Panel")]
+        [SerializeField] private GameObject caseRewardPanel;
+        [SerializeField] private TMP_Text rewardText;
+        [SerializeField] private Image rewardImage;
+
+        private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        public void ShowBossWarning(string message)
+        {
+            if (warningText == null) return;
+
             warningText.text = message;
             warningText.gameObject.SetActive(true);
-            Invoke("HideBossWarning", 2f);
-        }
-    }
 
-    void HideBossWarning()
-    {
-        if (warningText != null)
-        {
-            warningText.gameObject.SetActive(false);
+            CancelInvoke(nameof(HideBossWarning));
+            Invoke(nameof(HideBossWarning), 2f);
         }
-    }
-    
-    void Start()
-    {
-        // Если GameManager уже существует, обновляем текст
-        if (GameManager.Instance != null)
-        {
-            UpdateMoneyText(GameManager.Instance.money);
-        }
-        else
-        {
-            UpdateMoneyText(0);
-        }
-    }
 
-    public void UpdateMoneyText(int amount)
-    {
-        if (moneyText != null)
+        private void HideBossWarning()
         {
-            moneyText.text = "Монеты: " + amount;
+            if (warningText != null)
+                warningText.gameObject.SetActive(false);
         }
-        else
-        {
-            Debug.LogError("MoneyText не назначен в UIManager!");
-        }
-    }
 
-    public void ShowCaseReward(CaseItem item)
-    {
-        if (caseRewardPanel != null)
+        public void ShowCaseReward(Sprite icon, string itemName)
         {
-            caseRewardPanel.SetActive(true);
-        }
-        
-        if (rewardText != null)
-        {
-            rewardText.text = "Ты выбил: " + item.itemName;
-        }
-        
-        if (rewardImage != null && item.icon != null)
-        {
-            rewardImage.sprite = item.icon;
-        }
-        
-        // Через 2 секунды скрыть
-        Invoke("HideReward", 2f);
-    }
+            if (caseRewardPanel != null)
+                caseRewardPanel.SetActive(true);
 
-    void HideReward()
-    {
-        if (caseRewardPanel != null)
+            if (rewardText != null)
+                rewardText.text = $"Ты выбил: {itemName}";
+
+            if (rewardImage != null && icon != null)
+                rewardImage.sprite = icon;
+
+            CancelInvoke(nameof(HideReward));
+            Invoke(nameof(HideReward), 2f);
+        }
+
+        private void HideReward()
         {
-            caseRewardPanel.SetActive(false);
+            if (caseRewardPanel != null)
+                caseRewardPanel.SetActive(false);
         }
     }
 }

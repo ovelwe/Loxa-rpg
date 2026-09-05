@@ -2,47 +2,87 @@ using Cases.Drop;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using LoxaRPG.Cases.Drop;
+using LoxaRPG.Systems;
 
-namespace UI
+namespace LoxaRPG.UI
 {
+    /// <summary>
+    /// Окно награды за кейс.
+    /// </summary>
     public class DropRewardUI : MonoBehaviour
     {
+        [Header("UI")]
         [SerializeField] private RectTransform container;
-        
-        [Space(5)]
         [SerializeField] private Image dropImage;
         [SerializeField] private TMP_Text dropNameText;
         [SerializeField] private Button claimButton;
 
-        private void Start()
+        [Header("Звук")]
+        [SerializeField] private AudioClip rewardSound; // звук выпадения награды
+
+        private CaseDropData _currentDrop;
+
+        private void Awake()
         {
-            G.DropRewardUI = this;
+            if (container != null)
+                container.gameObject.SetActive(false);
+
+            if (claimButton != null)
+                claimButton.onClick.AddListener(Claim);
         }
 
         private void OnDestroy()
         {
-            G.DropRewardUI = this;
+            if (claimButton != null)
+                claimButton.onClick.RemoveListener(Claim);
         }
 
         public void ShowWindow(CaseDropData dropData)
         {
-            dropImage.sprite = dropData.itemSprite;
-            dropNameText.text = dropData.itemName;
-            
-            container.gameObject.SetActive(true);
-            
-            AudioSource.PlayClipAtPoint(dropData.dropSound, Vector3.zero);
-            
-            claimButton.onClick.AddListener(() =>
+            _currentDrop = dropData;
+
+            if (dropImage != null)
+                dropImage.sprite = dropData.itemSprite;
+
+            if (dropNameText != null)
+                dropNameText.text = dropData.itemName;
+
+            if (container != null)
+                container.gameObject.SetActive(true);
+
+            // Звук награды
+            PlaySound(dropData.dropSound != null ? dropData.dropSound : rewardSound);
+        }
+
+        private void Claim()
+        {
+            if (_currentDrop != null)
             {
-                dropData.ApplyDrop();
-                HideWindow();
-            });
+                _currentDrop.ApplyDrop();
+            }
+
+            HideWindow();
         }
 
         private void HideWindow()
         {
-            container.gameObject.SetActive(false);
+            if (container != null)
+                container.gameObject.SetActive(false);
+        }
+
+        private void PlaySound(AudioClip clip)
+        {
+            if (clip == null) return;
+
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlaySound(clip, Vector3.zero);
+            }
+            else
+            {
+                AudioSource.PlayClipAtPoint(clip, Vector3.zero);
+            }
         }
     }
 }

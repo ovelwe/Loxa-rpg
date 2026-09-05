@@ -1,37 +1,46 @@
-using Companions;
 using TMPro;
 using UnityEngine;
+using LoxaRPG.Player.Components;
 
-namespace UI
+namespace LoxaRPG.UI
 {
+    /// <summary>
+    /// Отображает деньги игрока в UI.
+    /// Подписывается на PlayerWallet и обновляет текст.
+    /// </summary>
     [RequireComponent(typeof(TMP_Text))]
     public class MoneyText : MonoBehaviour
     {
+        [SerializeField] private PlayerWallet playerWallet; // ссылка на кошелёк игрока
+
         private TMP_Text _text;
-        
-        private void Start()
+
+        private void OnEnable()
         {
             _text = GetComponent<TMP_Text>();
-            
-            AkatekuEventSystem.OnGameInitialized?.AddListener(() =>
-            {
-                _text.text = G.PlayerWallet.CurrentMoney.ToString();
-            });
-            AkatekuEventSystem.OnMoneyChanged?.AddListener(OnMoneyChanged);
 
+            // Подписываемся на изменение денег.
+            if (playerWallet != null)
+                playerWallet.OnMoneyChanged.AddListener(UpdateMoney);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
-            AkatekuEventSystem.OnGameInitialized?.RemoveListener(() =>
-            {
-                _text.text = G.PlayerWallet.CurrentMoney.ToString();
-            });
+            // Отписываемся, чтобы не было утечек.
+            if (playerWallet != null)
+                playerWallet.OnMoneyChanged.RemoveListener(UpdateMoney);
         }
 
-        private void OnMoneyChanged()
+        private void Start()
         {
-            _text.text = G.PlayerWallet.CurrentMoney.ToString();
+            // При старте показываем текущее бабло.
+            if (playerWallet != null)
+                UpdateMoney(playerWallet.CurrentMoney);
+        }
+
+        private void UpdateMoney(int amount)
+        {
+            _text.text = amount.ToString(); // просто выводим циферки
         }
     }
 }

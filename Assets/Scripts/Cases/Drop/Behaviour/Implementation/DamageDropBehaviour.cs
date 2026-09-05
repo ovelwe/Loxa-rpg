@@ -1,18 +1,34 @@
+using Cases.Drop.Behaviour;
 using UnityEngine;
+using LoxaRPG.Weapons.Components;
 
-namespace Cases.Drop.Behaviour.Implementation
+namespace LoxaRPG.Cases.Drop.Behaviour.Implementation
 {
+    /// <summary>
+    /// Увеличивает урон всего оружия на 10%.
+    /// </summary>
     [CreateAssetMenu(fileName = "Damage Drop Behaviour", menuName = "Cases/Drop/Behaviour/Damage", order = 0)]
     public class DamageDropBehaviour : DropBehaviour
     {
+        [SerializeField] private float damageMultiplier = 1.1f; // насколько увеличиваем
+
         public override void ApplyDrop()
         {
-            //todo: нахуй пиздец.
-            Weapon[] weapons = FindObjectsOfType<Weapon>();
-            foreach (Weapon weapon in weapons)
+            // Находим всё оружие и увеличиваем урон
+            var weapons = FindObjectsOfType<Weapon>();
+
+            if (weapons.Length == 0)
             {
-                weapon.damage *= 1.1f;
+                Debug.LogWarning("DamageDropBehaviour: Оружие не найдено!");
+                return;
             }
+
+            foreach (var weapon in weapons)
+            {
+                weapon.IncreaseDamage(damageMultiplier);
+            }
+
+            Debug.Log($"DamageDropBehaviour: Урон оружия увеличен на {(damageMultiplier - 1f) * 100f}%");
         }
     }
 }

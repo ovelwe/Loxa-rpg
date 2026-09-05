@@ -1,228 +1,209 @@
 using UnityEngine;
 using System.Collections;
+using LoxaRPG.Enemies.Components;
+using LoxaRPG.Systems;
 
-public class Akateka67 : MonoBehaviour
+namespace LoxaRPG.Companions
 {
-    [Header("Настройки Акатеки")]
-    public float lifeTime = 3f;
-    public float attackDamage = 25f;
-    public float attackRadius = 5f;
-    public float orbitSpeed = 90f;
-    public float orbitRadius = 2f;
-    public float orbitHeight = 2f; // Высота над игроком (увеличим)
-    public float searchDelay = 0.5f; // Задержка перед поиском зомби
-    
-    [Header("Звуки")]
-    public AudioClip attackSound;
-    [Range(0f, 10f)] public float attackSoundVolume = 2f;
-    
-    private Transform player;
-    private GameObject targetZombie;
-    private bool isAttacking = false;
-    private float orbitAngle = 0f;
-    private float spawnTime;
-    private SpriteRenderer spriteRenderer;
-    
-    void Start()
+    /// <summary>
+    /// Акатека67 — боевой петух-компаньон.
+    /// Летает вокруг игрока, атакует ближайших зомби.
+    /// </summary>
+    public class Akateka67 : MonoBehaviour
     {
-        spawnTime = Time.time;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        
-        // Находим игрока
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
+        [Header("Настройки")]
+        [SerializeField] private float lifeTime = 3f;
+        [SerializeField] private float attackDamage = 25f;
+        [SerializeField] private float attackRadius = 5f;
+        [SerializeField] private float orbitSpeed = 90f;
+        [SerializeField] private float orbitRadius = 2f;
+        [SerializeField] private float orbitHeight = 2f;
+        [SerializeField] private float searchDelay = 0.5f;
+
+        [Header("Звуки")]
+        [SerializeField] private AudioClip attackSound;
+        [Range(0f, 10f)] [SerializeField] private float attackSoundVolume = 2f;
+
+        private Transform _player;
+        private GameObject _targetZombie;
+        private bool _isAttacking;
+        private float _orbitAngle;
+        private float _spawnTime;
+        private SpriteRenderer _spriteRenderer;
+
+        private void Start()
         {
-            player = playerObj.transform;
-        }
-        
-        // СТАВИМ АКАТЕКУ СТРОГО НАД ИГРОКОМ
-        if (player != null)
-        {
-            transform.position = player.position + Vector3.up * orbitHeight;
-            Debug.Log("Акатека67: Спавн над игроком на высоте " + orbitHeight);
-        }
-        
-        // Начальный угол
-        orbitAngle = Random.Range(0f, 360f);
-        
-        // Запускаем поведение
-        StartCoroutine(AkatekaBehavior());
-    }
-    
-    IEnumerator AkatekaBehavior()
-    {
-        Debug.Log("Акатека67: Появился!");
-        
-        // Ждём перед началом (чтобы не сразу в игрока)
-        yield return new WaitForSeconds(0.3f);
-        
-        // Основной цикл
-        while (Time.time - spawnTime < lifeTime)
-        {
-            if (!isAttacking && player != null)
+            _spawnTime = Time.time;
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+
+            FindPlayer();
+
+            if (_player != null)
             {
-                // Летаем вокруг игрока
-                OrbitAroundPlayer();
-                
-                // Ищем зомби только после задержки
-                if (Time.time - spawnTime > searchDelay)
+                transform.position = _player.position + Vector3.up * orbitHeight;
+            }
+
+            _orbitAngle = Random.Range(0f, 360f);
+
+            StartCoroutine(AkatekaBehaviour());
+        }
+
+        private void FindPlayer()
+        {
+            var playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                _player = playerObj.transform;
+            }
+        }
+
+        private IEnumerator AkatekaBehaviour()
+        {
+            // Небольшая пауза перед началом
+            yield return new WaitForSeconds(0.3f);
+
+            while (Time.time - _spawnTime < lifeTime)
+            {
+                if (!_isAttacking && _player != null)
                 {
-                    targetZombie = FindNearestZombie();
-                    
-                    if (targetZombie != null)
+                    OrbitAroundPlayer();
+
+                    if (Time.time - _spawnTime > searchDelay)
                     {
-                        Debug.Log("Акатека67: Нашёл зомби, атакую!");
-                        isAttacking = true;
-                        yield return StartCoroutine(AttackTarget());
-                        isAttacking = false;
+                        _targetZombie = FindNearestZombie();
+
+                        if (_targetZombie != null)
+                        {
+                            _isAttacking = true;
+                            yield return StartCoroutine(AttackTarget());
+                            _isAttacking = false;
+                        }
                     }
                 }
+
+                yield return null;
             }
-            
-            yield return null;
+
+            // Плавное исчезновение
+            yield return StartCoroutine(FadeOut());
+            Destroy(gameObject);
         }
-        
-        Debug.Log("Акатека67: Время вышло, исчезаю");
-        
-        // Плавное исчезновение
-        float disappearDuration = 0.3f;
-        float disappearTimer = 0;
-        Vector3 startScale = transform.localScale;
-        
-        while (disappearTimer < disappearDuration)
+
+        private void OrbitAroundPlayer()
         {
-            disappearTimer += Time.deltaTime;
-            float t = disappearTimer / disappearDuration;
-            transform.localScale = Vector3.Lerp(startScale, Vector3.zero, t);
-            yield return null;
+            if (_player == null) return;
+
+            _orbitAngle += orbitSpeed * Time.deltaTime;
+            if (_orbitAngle >= 360f) _orbitAngle -= 360f;
+
+            var radians = _orbitAngle * Mathf.Deg2Rad;
+            var orbitPosition = new Vector3(
+                Mathf.Cos(radians) * orbitRadius,
+                Mathf.Sin(radians) * orbitRadius * 0.3f + orbitHeight,
+                0
+            );
+
+            transform.position = _player.position + orbitPosition;
+            transform.rotation = Quaternion.identity; // всегда смотрим вверх
         }
-        
-        Destroy(gameObject);
-    }
-    
-    void OrbitAroundPlayer()
-    {
-        if (player == null) return;
-        
-        // Увеличиваем угол
-        orbitAngle += orbitSpeed * Time.deltaTime;
-        if (orbitAngle >= 360f) orbitAngle -= 360f;
-        
-        // Позиция на орбите (ВОКРУГ и НАД игроком)
-        float radians = orbitAngle * Mathf.Deg2Rad;
-        Vector3 orbitPosition = new Vector3(
-            Mathf.Cos(radians) * orbitRadius,
-            Mathf.Sin(radians) * orbitRadius * 0.3f + orbitHeight, // Летает ВЫШЕ игрока
-            0
-        );
-        
-        // Перемещаем Акатеку
-        transform.position = player.position + orbitPosition;
-        
-        // НЕ ПОВОРАЧИВАЕМ — пусть всегда смотрит вверх
-        transform.rotation = Quaternion.identity;
-    }
-    
-    GameObject FindNearestZombie()
-    {
-        // Ищем зомби вокруг Акатеки
-        Collider2D[] zombies = Physics2D.OverlapCircleAll(transform.position, attackRadius);
-        
-        GameObject nearestZombie = null;
-        float nearestDistance = Mathf.Infinity;
-        
-        foreach (Collider2D collider in zombies)
+
+        private GameObject FindNearestZombie()
         {
-            if (collider.CompareTag("Zombie"))
+            var zombies = Physics2D.OverlapCircleAll(transform.position, attackRadius);
+            GameObject nearest = null;
+            float nearestDistance = Mathf.Infinity;
+
+            foreach (var collider in zombies)
             {
+                if (!collider.CompareTag("Zombie")) continue;
+
                 float distance = Vector2.Distance(transform.position, collider.transform.position);
                 if (distance < nearestDistance)
                 {
                     nearestDistance = distance;
-                    nearestZombie = collider.gameObject;
+                    nearest = collider.gameObject;
                 }
             }
+
+            return nearest;
         }
-        
-        if (nearestZombie != null)
+
+        private IEnumerator AttackTarget()
         {
-            Debug.Log("Акатека67: Зомби найден на дистанции " + nearestDistance);
-        }
-        
-        return nearestZombie;
-    }
-    
-    IEnumerator AttackTarget()
-    {
-        if (targetZombie == null) yield break;
-        
-        Vector3 startPosition = transform.position;
-        Vector3 targetPosition = targetZombie.transform.position;
-        
-        Debug.Log("Акатека67: Лечу к зомби!");
-        
-        // Полёт к зомби
-        float flyDuration = 0.3f;
-        float flyTimer = 0;
-        
-        while (flyTimer < flyDuration)
-        {
-            flyTimer += Time.deltaTime;
-            float t = flyTimer / flyDuration;
-            float easedT = t * t;
-            
-            transform.position = Vector3.Lerp(startPosition, targetPosition, easedT);
-            yield return null;
-        }
-        
-        Debug.Log("Акатека67: Бью зомби!");
-        
-        // Наносим урон
-        DealDamage();
-    }
-    
-    void DealDamage()
-    {
-        // Звук
-        if (attackSound != null)
-        {
-            GameObject soundObject = new GameObject("LoudAttackSound");
-            soundObject.transform.position = transform.position;
-            
-            AudioSource audioSource = soundObject.AddComponent<AudioSource>();
-            audioSource.clip = attackSound;
-            
-            // НАСТРОЙКА ГРОМКОСТИ
-            audioSource.volume = attackSoundVolume; // Может быть 2, 3, 5!
-            audioSource.spatialBlend = 0f; // 0 = 2D звук (слышно везде одинаково)
-            audioSource.bypassEffects = true;
-            audioSource.bypassListenerEffects = true;
-            audioSource.bypassReverbZones = true;
-            audioSource.pitch = Random.Range(0.9f, 1.1f);
-            
-            audioSource.Play();
-            
-            // Уничтожаем после проигрывания
-            Destroy(soundObject, attackSound.length);
-        }
-        
-        // Урон зомби
-        if (targetZombie != null)
-        {
-            ZombieHealth zombieHealth = targetZombie.GetComponent<ZombieHealth>();
-            if (zombieHealth != null)
+            if (_targetZombie == null) yield break;
+
+            var startPosition = transform.position;
+            var targetPosition = _targetZombie.transform.position;
+
+            // Полёт к зомби
+            float flyTimer = 0;
+            const float flyDuration = 0.3f;
+
+            while (flyTimer < flyDuration)
             {
-                zombieHealth.TakeDamage(attackDamage);
-                Debug.Log("Акатека67: Нанёс " + attackDamage + " урона!");
+                flyTimer += Time.deltaTime;
+                float t = flyTimer / flyDuration;
+                float easedT = t * t; // Ease-In
+
+                transform.position = Vector3.Lerp(startPosition, targetPosition, easedT);
+                yield return null;
+            }
+
+            DealDamage();
+        }
+
+        private void DealDamage()
+        {
+            PlayAttackSound();
+
+            if (_targetZombie != null && _targetZombie.TryGetComponent<ZombieHealth>(out var health))
+            {
+                health.TakeDamage(attackDamage);
+            }
+
+            // Вспышка при ударе
+            CreateFlash();
+        }
+
+        private void PlayAttackSound()
+        {
+            if (attackSound == null) return;
+
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlaySound(attackSound, transform.position, attackSoundVolume);
+            }
+            else
+            {
+                AudioSource.PlayClipAtPoint(attackSound, transform.position);
             }
         }
-        
-        // Вспышка
-        GameObject flash = new GameObject("Flash");
-        flash.transform.position = transform.position;
-        SpriteRenderer flashRenderer = flash.AddComponent<SpriteRenderer>();
-        flashRenderer.color = Color.yellow;
-        flash.transform.localScale = Vector3.one * 2f;
-        Destroy(flash, 0.2f);
+
+        private void CreateFlash()
+        {
+            var flash = new GameObject("Flash");
+            flash.transform.position = transform.position;
+
+            var renderer = flash.AddComponent<SpriteRenderer>();
+            renderer.color = Color.yellow;
+            flash.transform.localScale = Vector3.one * 2f;
+
+            Destroy(flash, 0.2f);
+        }
+
+        private IEnumerator FadeOut()
+        {
+            const float duration = 0.3f;
+            float timer = 0;
+            var startScale = transform.localScale;
+
+            while (timer < duration)
+            {
+                timer += Time.deltaTime;
+                float t = timer / duration;
+                transform.localScale = Vector3.Lerp(startScale, Vector3.zero, t);
+                yield return null;
+            }
+        }
     }
 }

@@ -1,46 +1,47 @@
 using UnityEngine;
 
-public class DamagePopup : MonoBehaviour
+namespace LoxaRPG.UI
 {
-    public static DamagePopup Instance { get; private set; }
-    
-    public GameObject damageTextPrefab; // Префаб текста урона
-    public float lifeTime = 1f;
-    public float moveSpeed = 2f;
-    
-    void Awake()
+    /// <summary>
+    /// Показывает всплывающий урон над врагами.
+    /// </summary>
+    public class DamagePopup : MonoBehaviour
     {
-        if (Instance == null)
+        public static DamagePopup Instance { get; private set; }
+
+        [SerializeField] private GameObject damageTextPrefab;
+        [SerializeField] private float lifeTime = 1f;
+        [SerializeField] private float moveSpeed = 2f;
+
+        private void Awake()
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
+
+        public void ShowDamage(Vector3 position, float damageAmount)
         {
-            Destroy(gameObject);
+            if (damageTextPrefab == null)
+            {
+                Debug.LogError("DamagePopup: Префаб текста урона не назначен!");
+                return;
+            }
+
+            var damageObj = Instantiate(damageTextPrefab, position, Quaternion.identity);
+
+            if (!damageObj.TryGetComponent<DamageTextAnimation>(out var anim))
+            {
+                anim = damageObj.AddComponent<DamageTextAnimation>();
+            }
+
+            anim.Setup(damageAmount, lifeTime, moveSpeed);
         }
-    }
-    
-    public void ShowDamage(Vector3 position, float damageAmount)
-    {
-        if (damageTextPrefab == null)
-        {
-            Debug.LogError("DamagePopup: Не назначен префаб текста урона!");
-            return;
-        }
-        
-        // Создаём объект с текстом
-        GameObject damageObj = Instantiate(damageTextPrefab, position, Quaternion.identity);
-        
-        // Добавляем компонент для анимации
-        DamageTextAnimation anim = damageObj.GetComponent<DamageTextAnimation>();
-        if (anim == null)
-        {
-            anim = damageObj.AddComponent<DamageTextAnimation>();
-        }
-        
-        anim.Setup(damageAmount, lifeTime, moveSpeed);
     }
 }
-
-// Вспомогательный класс для анимации урона

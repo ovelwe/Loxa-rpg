@@ -251,9 +251,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CLAIM
+  m_text: "\u0417\u0410\u0411\u0420\u0410\u0422\u042C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 636974cd6a8039c4cad23de8d7916541, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: baa7e5b4bc6af3a43953794ae5859128, type: 2}
   m_sharedMaterial: {fileID: 1959021680319049948, guid: 636974cd6a8039c4cad23de8d7916541, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -320,7 +320,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &25136065
@@ -360,7 +360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd43db264cdc48259d764a3ac630a060, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  money: 67
 --- !u!4 &38978570
 Transform:
   m_ObjectHideFlags: 0
@@ -435,7 +434,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 67676767
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 636974cd6a8039c4cad23de8d7916541, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 1959021680319049948, guid: 636974cd6a8039c4cad23de8d7916541, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -566,6 +565,7 @@ MonoBehaviour:
   dropImage: {fileID: 2032602423}
   dropNameText: {fileID: 1519438045}
   claimButton: {fileID: 1972709883}
+  rewardSound: {fileID: 0}
 --- !u!1 &74992596
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,7 +746,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
   hurtSoundCooldown: 0.3
-  globalSoundCooldown: 0.1
 --- !u!4 &120574783
 Transform:
   m_ObjectHideFlags: 0
@@ -883,8 +882,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 100/100
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
-  m_sharedMaterial: {fileID: 1935144746746699791, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: baa7e5b4bc6af3a43953794ae5859128, type: 2}
+  m_sharedMaterial: {fileID: 8340190104352569578, guid: baa7e5b4bc6af3a43953794ae5859128, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1061,9 +1060,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 3796202527203263827, guid: 1e17f9fd6e28624478aae94c6a94d027, type: 3}
   firePoint: {fileID: 1125540223}
   shootSound: {fileID: 8300000, guid: da0323883cded144f88dd1f5b84e33eb, type: 3}
-  shootSoundVolume: 0.52
-  shootPitchMin: 0.9
-  shootPitchMax: 1.1
+  soundVolume: 1
 --- !u!4 &245176973
 Transform:
   m_ObjectHideFlags: 0
@@ -2243,6 +2240,10 @@ MonoBehaviour:
   dropResolver: {fileID: 611136810}
   rouletteUI: {fileID: 1232705015}
   openButton: {fileID: 676108115}
+  playerWallet: {fileID: 1378226450}
+  dropRewardUI: {fileID: 74755465}
+  caseCost: 67
+  caseOpenSound: {fileID: 8300000, guid: a03425cc21a29d948995d621b87355f0, type: 3}
 --- !u!4 &611136812
 Transform:
   m_ObjectHideFlags: 0
@@ -2661,7 +2662,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0411\u041E\u0420\u0421\u041A\u0418\u0419 \u0412\u0418\u0420\u0423\u0421 \u0421\u0422\u0410\u041B \u041F\u041E\u0413\u041B\u041E\u0429\u0410\u0422\u042C \u0422\u0412\u041E\u0401 \u0422\u0415\u041B\u041E..."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: baa7e5b4bc6af3a43953794ae5859128, type: 2}
   m_sharedMaterial: {fileID: 1935144746746699791, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2728,7 +2729,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &798494142
@@ -2778,9 +2779,8 @@ MonoBehaviour:
   timeBetweenWaves: 5
   zombiesPerWave: 5
   zombiesIncreasePerWave: 2
-  wavesBeforeBoss: 2
+  wavesBeforeBoss: 1
   timeBeforeBoss: 3
-  bossWarningMessage: "\u0413\u0420\u0418\u0428\u041E\u0418\u0414 \u041F\u0420\u041E\u0411\u0423\u0416\u0414\u0410\u0415\u0422\u0421\u042F!"
 --- !u!4 &808874073
 Transform:
   m_ObjectHideFlags: 0
@@ -2868,9 +2868,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 3796202527203263827, guid: 1e17f9fd6e28624478aae94c6a94d027, type: 3}
   firePoint: {fileID: 1125540223}
   shootSound: {fileID: 8300000, guid: 3a21208cda42c8a42ac31e24ecd970dd, type: 3}
-  shootSoundVolume: 0.32
-  shootPitchMin: 0.9
-  shootPitchMax: 1.1
+  soundVolume: 1
 --- !u!4 &1139668336
 Transform:
   m_ObjectHideFlags: 0
@@ -3223,6 +3221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8615d417d7f94d1e81aed05aa2a4618f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.MoneyText
+  playerWallet: {fileID: 1378226450}
 --- !u!1 &1378226440
 GameObject:
   m_ObjectHideFlags: 0
@@ -3239,6 +3238,8 @@ GameObject:
   - component: {fileID: 1378226446}
   - component: {fileID: 1378226449}
   - component: {fileID: 1378226450}
+  - component: {fileID: 1378226451}
+  - component: {fileID: 1378226452}
   m_Layer: 0
   m_Name: Petuh67
   m_TagString: Player
@@ -3351,13 +3352,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 100
-  healthSlider: {fileID: 594322871}
-  healthText: {fileID: 208961299}
-  flashDuration: 0.3
-  playerSprite: {fileID: 1378226441}
-  healColor: {r: 0, g: 1, b: 0, a: 1}
-  deathPanel: {fileID: 2107567569}
-  deathDelay: 2
+  currentHealth: 0
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1378226447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3408,7 +3415,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa83f408fa04255933bc63956e8987a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StunEffect
-  stunDuration: 1
   stunVisual: {fileID: 0}
 --- !u!114 &1378226450
 MonoBehaviour:
@@ -3419,9 +3425,45 @@ MonoBehaviour:
   m_GameObject: {fileID: 1378226440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c71f84f534334c80800fc4aac5586f7e, type: 3}
+  m_Script: {fileID: 11500000, guid: a21d415dc5f24fb29826be4db5350fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.Wallet.PlayerWallet
+  startMoney: 67
+  OnMoneyChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1378226451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378226440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de6847d7556a47509bf035541ad124e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoxaRPG.Player.Components.PlayerVisualEffects
+  damageColor: {r: 1, g: 0, b: 0, a: 1}
+  healColor: {r: 0, g: 1, b: 0, a: 1}
+  flashDuration: 0.3
+  playerHealth: {fileID: 1378226446}
+--- !u!114 &1378226452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378226440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f89a23a996234e05987a9a857750ae5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoxaRPG.UI.PlayerHealthUI
+  healthSlider: {fileID: 594322871}
+  healthText: {fileID: 208961299}
+  playerHealth: {fileID: 1378226446}
+  deathPanel: {fileID: 2107567569}
 --- !u!1 &1432480541
 GameObject:
   m_ObjectHideFlags: 0
@@ -3482,11 +3524,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ce5f2942be4959abf7a94d2112be94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  moneyText: {fileID: 1308454969}
+  warningText: {fileID: 0}
   caseRewardPanel: {fileID: 404783570}
   rewardText: {fileID: 1612016615}
   rewardImage: {fileID: 516568415}
-  warningText: {fileID: 0}
 --- !u!4 &1444272928
 Transform:
   m_ObjectHideFlags: 0
@@ -3600,7 +3641,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Drop Name Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 636974cd6a8039c4cad23de8d7916541, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: baa7e5b4bc6af3a43953794ae5859128, type: 2}
   m_sharedMaterial: {fileID: 1959021680319049948, guid: 636974cd6a8039c4cad23de8d7916541, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3667,7 +3708,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1519438046
@@ -3737,7 +3778,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: baa7e5b4bc6af3a43953794ae5859128, type: 2}
   m_sharedMaterial: {fileID: 1935144746746699791, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3804,7 +3845,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1612016616
@@ -3944,9 +3985,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 3796202527203263827, guid: 1e17f9fd6e28624478aae94c6a94d027, type: 3}
   firePoint: {fileID: 1125540223}
   shootSound: {fileID: 8300000, guid: 9a296a37bb8a7bf41b9f6cd0090cefbe, type: 3}
-  shootSoundVolume: 0.32
-  shootPitchMin: 0.9
-  shootPitchMax: 1.1
+  soundVolume: 1
 --- !u!1 &1837177312
 GameObject:
   m_ObjectHideFlags: 0

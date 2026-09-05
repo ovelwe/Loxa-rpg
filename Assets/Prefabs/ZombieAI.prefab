@@ -245,7 +245,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a413834ff94dd3b8d614d94592922d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldHealthBar
-  fillTransform: {fileID: 7062790475195802308}
+  highColor: {r: 0, g: 1, b: 0, a: 1}
+  mediumColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  lowColor: {r: 1, g: 0, b: 0, a: 1}
+  smoothSpeed: 5
   fillImage: {fileID: 6303141888603234833}
 --- !u!1 &2470906513751633993
 GameObject:
@@ -305,7 +308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7492009, g: 1, b: 0.3443396, a: 1}
+  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -313,10 +316,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 1833101849e077b4781fdef9633c7b15, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -484,7 +487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.3443396, b: 0.3443396, a: 1}
+  m_Color: {r: 0.50345343, g: 1, b: 0.34509802, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -515,6 +518,8 @@ GameObject:
   - component: {fileID: 642858201923456811}
   - component: {fileID: 3192243065546994804}
   - component: {fileID: 4971145304189356390}
+  - component: {fileID: 529169462133233250}
+  - component: {fileID: -93595150353740469}
   m_Layer: 0
   m_Name: ZombieAI
   m_TagString: Zombie
@@ -691,6 +696,15 @@ MonoBehaviour:
   hurtSound: {fileID: 8300000, guid: 78784cf6a03108d46b8ca6d686043ee4, type: 3}
   deathSoundVolume: 0.59
   hurtSoundVolume: 0.61
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
   worldHealthBar: {fileID: 4779436161946367252}
 --- !u!114 &4971145304189356390
 MonoBehaviour:
@@ -704,10 +718,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f169d485a69b4a9b854354dedf7393f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieAI
-  moveSpeed: 2
   attackDamage: 10
   attackRange: 5
   attackCooldown: 1
   detectionRange: 67
   attackSound: {fileID: 8300000, guid: 104bd547ec67c1141a00a9134645c7d6, type: 3}
-  attackSoundVolume: 0.72
+  attackSoundVolume: 0.34
+--- !u!114 &529169462133233250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8938586630105428647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899632af78d1487e87e50f28b75ff09c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoxaRPG.Enemies.Components.ZombieMovement
+  moveSpeed: 2
+--- !u!114 &-93595150353740469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8938586630105428647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf0b33e4e474df0a6ec8d1d34b2900c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoxaRPG.Enemies.Components.ZombieDeathReporter

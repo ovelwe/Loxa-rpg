@@ -1,49 +1,84 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
-public class WorldHealthBar : MonoBehaviour
+namespace LoxaRPG.UI
 {
-    public Transform fillTransform; // Трансформ заполнения бара
-    public Image fillImage; // Спрайт рендерер заполнения
-    
-    private Vector3 initialFillScale;
-    private Vector3 initialFillPosition;
-    
-    void Start()
+    /// <summary>
+    /// ХП бар над зомби.
+    /// Плавно уменьшается и меняет цвет: зелёный → жёлтый → красный.
+    /// </summary>
+    public class WorldHealthBar : MonoBehaviour
     {
-        if (fillTransform != null)
+        [Header("Цвета")]
+        [SerializeField] private Color highColor = Color.green;
+        [SerializeField] private Color mediumColor = Color.yellow;
+        [SerializeField] private Color lowColor = Color.red;
+
+        [Header("Настройки анимации")]
+        [SerializeField] private float smoothSpeed = 5f; // скорость плавного изменения
+
+        [Header("UI")]
+        [SerializeField] private Image fillImage; // Перетащи СЮДА Fill из Canvas
+
+        private Coroutine _smoothCoroutine;
+        private float _targetFillAmount = 1f;
+
+        public void SetHealth(float currentHealth, float maxHealth)
         {
-            initialFillScale = fillTransform.localScale;
-            initialFillPosition = fillTransform.localPosition;
+            if (fillImage == null)
+            {
+                Debug.LogError("WorldHealthBar: fillImage не назначен!");
+                return;
+            }
+
+            float healthPercent = Mathf.Clamp01(currentHealth / maxHealth);
+            _targetFillAmount = healthPercent;
+
+            // Запускаем плавное изменение
+            if (_smoothCoroutine != null)
+            {
+                StopCoroutine(_smoothCoroutine);
+            }
+            _smoothCoroutine = StartCoroutine(SmoothHealthChange());
         }
-    }
-    
-    // Метод для обновления ХП бара
-    public void SetHealth(float currentHealth, float maxHealth)
-    {
-        if (fillTransform == null || fillImage == null)
+
+        private IEnumerator SmoothHealthChange()
         {
-            Debug.LogError("WorldHealthBar: Не назначены fillTransform или fillSpriteRenderer!");
-            return;
+            while (Mathf.Abs(fillImage.fillAmount - _targetFillAmount) > 0.01f)
+            {
+                // Плавно меняем fillAmount
+                fillImage.fillAmount = Mathf.Lerp(
+                    fillImage.fillAmount,
+                    _targetFillAmount,
+                    smoothSpeed * Time.deltaTime
+                );
+
+                // Обновляем цвет
+                UpdateColor(fillImage.fillAmount);
+
+                yield return null;
+            }
+
+            // Финально ставим точное значение
+            fillImage.fillAmount = _targetFillAmount;
+            UpdateColor(fillImage.fillAmount);
         }
-        
-        // Вычисляем процент здоровья
-        float healthPercent = Mathf.Clamp01(currentHealth / maxHealth);
-        
-        fillImage.fillAmount = healthPercent;
-        
-        // Меняем цвет в зависимости от здоровья
-        if (healthPercent > 0.6f)
+
+        private void UpdateColor(float healthPercent)
         {
-            fillImage.color = Color.green; // Много ХП - зелёный
-        }
-        else if (healthPercent > 0.3f)
-        {
-            fillImage.color = Color.yellow; // Средне - жёлтый
-        }
-        else
-        {
-            fillImage.color = Color.red; // Мало - красный
+            if (healthPercent > 0.6f)
+            {
+                fillImage.color = highColor; // зелёный
+            }
+            else if (healthPercent > 0.3f)
+            {
+                fillImage.color = mediumColor; // жёлтый
+            }
+            else
+            {
+                fillImage.color = lowColor; // красный
+            }
         }
     }
 }
