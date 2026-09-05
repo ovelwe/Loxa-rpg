@@ -971,7 +971,7 @@ GameObject:
   m_Component:
   - component: {fileID: 236743236}
   m_Layer: 0
-  m_Name: --------------------
+  m_Name: '--------------------'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1002,7 +1002,7 @@ GameObject:
   m_Component:
   - component: {fileID: 241102764}
   m_Layer: 0
-  m_Name: --------------------
+  m_Name: '--------------------'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2338,7 +2338,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: -2
-      type: {class: , ns: , asm: }
+      type: {class: '', ns: '', asm: ''}
     - rid: 8016853814862151685
       type: {class: Light2DProviderSources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data:
@@ -4397,7 +4397,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2128763477}
   m_Layer: 0
-  m_Name: --------------------
+  m_Name: '--------------------'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4428,7 +4428,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2142377183}
   m_Layer: 0
-  m_Name: --------------------
+  m_Name: '--------------------'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

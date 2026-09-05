@@ -1,4 +1,4 @@
-using Companions;
+using Components;
 using TMPro;
 using UnityEngine;
 

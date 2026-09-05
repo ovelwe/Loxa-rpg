@@ -26,26 +26,13 @@ public class ZombieAI : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>(); // Получаем SpriteRenderer
-        FindPlayer();
-        InvokeRepeating("FindPlayer", 0f, 1f);
-    }
-    
-    void FindPlayer()
-    {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
-        {
-            player = playerObj.transform;
-        }
+        // FindPlayer();
+        // InvokeRepeating("FindPlayer", 0f, 1f);
+        player = G.PlayerTransform;
     }
     
     void Update()
     {
-        if (player == null)
-        {
-            FindPlayer();
-            return;
-        }
         
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         

@@ -23,19 +23,13 @@ public class Akateka67 : MonoBehaviour
     private float spawnTime;
     private SpriteRenderer spriteRenderer;
     
-    void Start()
+    private void Start()
     {
         spawnTime = Time.time;
         spriteRenderer = GetComponent<SpriteRenderer>();
         
-        // Находим игрока
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
-        {
-            player = playerObj.transform;
-        }
+        player = G.PlayerTransform;
         
-        // СТАВИМ АКАТЕКУ СТРОГО НАД ИГРОКОМ
         if (player != null)
         {
             transform.position = player.position + Vector3.up * orbitHeight;

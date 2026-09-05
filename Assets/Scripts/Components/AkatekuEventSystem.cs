@@ -1,6 +1,6 @@
 using UnityEngine.Events;
 
-namespace Companions
+namespace Components
 {
     public static class AkatekuEventSystem
     {
