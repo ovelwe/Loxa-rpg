@@ -883,8 +883,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 100/100
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
-  m_sharedMaterial: {fileID: 1935144746746699791, guid: 23f7c513bd2b93149aa0b1eea9152e26, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -971,7 +971,7 @@ GameObject:
   m_Component:
   - component: {fileID: 236743236}
   m_Layer: 0
-  m_Name: '--------------------'
+  m_Name: --------------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1002,7 +1002,7 @@ GameObject:
   m_Component:
   - component: {fileID: 241102764}
   m_Layer: 0
-  m_Name: '--------------------'
+  m_Name: --------------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2338,7 +2338,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: -2
-      type: {class: '', ns: '', asm: ''}
+      type: {class: , ns: , asm: }
     - rid: 8016853814862151685
       type: {class: Light2DProviderSources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data:
@@ -3859,6 +3859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf2cb787513849f0b144bcdebd1924ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Components.GameBootstrap
+  playerTransform: {fileID: 1378226444}
   playerWallet: {fileID: 1378226450}
 --- !u!1 &1742585269
 GameObject:
@@ -4397,7 +4398,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2128763477}
   m_Layer: 0
-  m_Name: '--------------------'
+  m_Name: --------------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4428,7 +4429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2142377183}
   m_Layer: 0
-  m_Name: '--------------------'
+  m_Name: --------------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -43,11 +43,11 @@ public class Bullet : MonoBehaviour
             return;
         }
         
-        // Если это стена или что-то ещё - уничтожаем пулю
-        if (other.CompareTag("Wall") || other.CompareTag("Ground"))
-        {
-            Destroy(gameObject);
-        }
+        // // Если это стена или что-то ещё - уничтожаем пулю
+        // if (other.CompareTag("Wall") || other.CompareTag("Ground"))
+        // {
+        //     Destroy(gameObject);
+        // }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
