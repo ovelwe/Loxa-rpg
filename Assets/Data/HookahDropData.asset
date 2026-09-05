@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12da327f689c4a6693d771d921b48844, type: 3}
-  m_Name: SixSevenDrop
+  m_Name: HookahDropData
   m_EditorClassIdentifier: Assembly-CSharp::Cases.CaseDropData
-  itemName: +67% Damage
+  itemName: "\u041A\u0430\u043B\u044C\u044F\u043D.\u043F\u043D\u0433"
   itemChance: 0.45
-  itemSprite: {fileID: 21300000, guid: e0734eac16bdd5342a6a43b5c807c22e, type: 3}
+  itemSprite: {fileID: 21300000, guid: 634311b998ebde74db9ad18a1e6c2fbe, type: 3}
+  dropSound: {fileID: 8300000, guid: 2e8ea41231395c14ebbda6ccfc294864, type: 3}
   dropBehaviour: {fileID: 11400000, guid: 193ee8caada9da845acbc837ee39025e, type: 2}

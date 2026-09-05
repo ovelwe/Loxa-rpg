@@ -9,6 +9,9 @@ namespace Cases.Drop
         [field: SerializeField] public string itemName;
         [field: SerializeField, Range(0f, 1f)] public float itemChance;
         [field: SerializeField] public Sprite itemSprite;
+        
+        [field: SerializeField] public AudioClip dropSound;
+        
         [field: SerializeField] public DropBehaviour dropBehaviour;
         
         public void ApplyDrop()

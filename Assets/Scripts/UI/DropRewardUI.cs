@@ -1,4 +1,3 @@
-using Cases;
 using Cases.Drop;
 using TMPro;
 using UnityEngine;
@@ -31,6 +30,8 @@ namespace UI
             dropNameText.text = dropData.itemName;
             
             container.gameObject.SetActive(true);
+            
+            AudioSource.PlayClipAtPoint(dropData.dropSound, Vector3.zero);
             
             claimButton.onClick.AddListener(() =>
             {
