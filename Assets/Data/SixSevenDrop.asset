@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: +67% Damage
   itemChance: 0.45
   itemSprite: {fileID: 21300000, guid: e0734eac16bdd5342a6a43b5c807c22e, type: 3}
+  dropBehaviour: {fileID: 11400000, guid: 193ee8caada9da845acbc837ee39025e, type: 2}

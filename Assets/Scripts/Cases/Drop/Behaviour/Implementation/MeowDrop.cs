@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Cases.Drop.Behaviour.Implementation
 {
-    [CreateAssetMenu(fileName = "Meow Drop Behaviour", menuName = "Cases/Drop/Behaviour", order = 0)]
+    [CreateAssetMenu(fileName = "Meow Drop Behaviour", menuName = "Cases/Drop/Behaviour/Akateku67", order = 0)]
     public class MeowDrop : DropBehaviour
     {
         [field: SerializeField] public GameObject akateka67Prefab;

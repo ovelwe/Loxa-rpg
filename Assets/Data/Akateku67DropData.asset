@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: Akateku67
   itemChance: 0.3
   itemSprite: {fileID: 21300000, guid: 0f9e00b7eb5cdc443bb37b9e56538b47, type: 3}
+  dropSound: {fileID: 8300000, guid: e16ac47494fbef54fbf36594f6031c86, type: 3}
   dropBehaviour: {fileID: 11400000, guid: 1d9583870e3804b4dbcbc52cb287de9f, type: 2}

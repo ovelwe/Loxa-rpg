@@ -32,6 +32,8 @@ namespace UI
             
             container.gameObject.SetActive(true);
             
+            AudioSource.PlayClipAtPoint(dropData.dropSound, Vector3.zero);
+            
             claimButton.onClick.AddListener(() =>
             {
                 dropData.ApplyDrop();
