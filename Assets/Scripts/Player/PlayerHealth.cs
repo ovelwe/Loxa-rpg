@@ -208,24 +208,6 @@ public class PlayerHealth : MonoBehaviour
         
         Debug.Log("ИГРОК ПОГИБ!");
         
-        // Останавливаем движение
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector2.zero;
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        }
-        
-        // Отключаем управление
-        MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
-        foreach (MonoBehaviour script in scripts)
-        {
-            if (script != this && script != null)
-            {
-                script.enabled = false;
-            }
-        }
-        
         // Показываем панель смерти
         if (deathPanel != null)
         {

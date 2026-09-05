@@ -3083,6 +3083,7 @@ GameObject:
   - component: {fileID: 1308454968}
   - component: {fileID: 1308454970}
   - component: {fileID: 1308454969}
+  - component: {fileID: 1308454971}
   m_Layer: 5
   m_Name: MoneyText
   m_TagString: Untagged
@@ -3209,6 +3210,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1308454967}
   m_CullTransparentMesh: 1
+--- !u!114 &1308454971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308454967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8615d417d7f94d1e81aed05aa2a4618f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.MoneyText
 --- !u!1 &1378226440
 GameObject:
   m_ObjectHideFlags: 0
@@ -3224,6 +3237,7 @@ GameObject:
   - component: {fileID: 1378226447}
   - component: {fileID: 1378226446}
   - component: {fileID: 1378226449}
+  - component: {fileID: 1378226450}
   m_Layer: 0
   m_Name: Petuh67
   m_TagString: Player
@@ -3395,6 +3409,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StunEffect
   stunDuration: 1
   stunVisual: {fileID: 0}
+--- !u!114 &1378226450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378226440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71f84f534334c80800fc4aac5586f7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.Wallet.PlayerWallet
 --- !u!1 &1432480541
 GameObject:
   m_ObjectHideFlags: 0
@@ -3858,6 +3884,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1612016613}
   m_CullTransparentMesh: 1
+--- !u!1 &1673694134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1673694135}
+  - component: {fileID: 1673694136}
+  m_Layer: 0
+  m_Name: GameBootstrap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1673694135
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673694134}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1673694136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673694134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf2cb787513849f0b144bcdebd1924ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Components.GameBootstrap
+  playerWallet: {fileID: 1378226450}
 --- !u!1 &1742585269
 GameObject:
   m_ObjectHideFlags: 0
@@ -4467,6 +4538,7 @@ SceneRoots:
   - {fileID: 120574783}
   - {fileID: 611136812}
   - {fileID: 1444272928}
+  - {fileID: 1673694135}
   - {fileID: 2142377183}
   - {fileID: 278442511}
   - {fileID: 282479725}

@@ -21,17 +21,13 @@ namespace Cases
 
         [Header("Animation")]
         [SerializeField]
-        private AnimationCurve movementCurve =
-            AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+        private AnimationCurve movementCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
         private readonly List<CaseItemView> spawnedItems = new();
 
         public bool IsSpinning { get; private set; }
 
-        public void Spin(
-            IReadOnlyList<CaseDropData> availableDrops,
-            CaseDropData winner,
-            Action onFinished = null)
+        public void Spin(IReadOnlyList<CaseDropData> availableDrops, CaseDropData winner, Action onFinished = null)
         {
             if (IsSpinning)
                 return;
@@ -45,10 +41,7 @@ namespace Cases
             StartCoroutine(SpinRoutine(availableDrops, winner, onFinished));
         }
 
-        private IEnumerator SpinRoutine(
-            IReadOnlyList<CaseDropData> availableDrops,
-            CaseDropData winner,
-            Action onFinished)
+        private IEnumerator SpinRoutine(IReadOnlyList<CaseDropData> availableDrops, CaseDropData winner, Action onFinished)
         {
             IsSpinning = true;
 

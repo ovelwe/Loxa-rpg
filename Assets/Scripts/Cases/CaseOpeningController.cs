@@ -10,6 +10,8 @@ namespace Cases
         [SerializeField] private CaseRouletteUI rouletteUI;
         [SerializeField] private Button openButton;
 
+        private const int CaseCost = 67;
+
         private void Awake()
         {
             if (openButton != null)
@@ -25,6 +27,9 @@ namespace Cases
         public void OpenCase()
         {
             if (rouletteUI.IsSpinning)
+                return;
+
+            if (G.PlayerWallet.SpendMoney(CaseCost) == false)
                 return;
 
             // ВАЖНО:
